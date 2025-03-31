@@ -1,6 +1,7 @@
 class SlowSet {
-  
+
   #elements = [];
+
   add(element) {
     if (!this.has(element)) {
       this.#elements.push(element);
@@ -20,7 +21,7 @@ class SlowSet {
     }
   }
 
-   size() {
+  size() {
     return this.#elements.length;
   }
 
@@ -31,17 +32,26 @@ class SlowSet {
   toString() {
     return this.#elements.toString();
   }
-}
-const s = new SlowSet();
 
-console.log(s);
-s.add(1);
-s.add(1);
-s.add(2);
-console.log(s + "");
-console.log(s.has(1))
-console.log(s.has(4))
-console.log(s.delete(1))
-console.log(s.delete(6))
-console.log(s.size())
+  union(secondSet) {
+    const newSet = new SlowSet()
+    for (const element of this.#elements) {
+      newSet.add(element)
+    }
+    for (const element of secondSet.#elements) {
+      newSet.add(element)
+    }
+    return newSet
+  }
+}
+
+const s = new SlowSet();
+s.add(1)
+s.add(2)
+const a = new SlowSet();
+a.add(1)
+a.add(4);
+a.add(5);
+console.log(s.union(a).toString())
+console.log(a.toString())
 console.log(s.toString())
