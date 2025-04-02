@@ -2,6 +2,18 @@ class SlowSet {
 
   #elements = [];
 
+  constructor(iterable) {
+    if (iterable) {
+      for (const element of iterable) {
+        this.add(element);
+      }
+    }
+  }
+
+  [Symbol.iterator]() {
+    return this.#elements[Symbol.iterator]()
+  }
+
   add(element) {
     if (!this.has(element)) {
       this.#elements.push(element);
@@ -30,28 +42,78 @@ class SlowSet {
   }
 
   toString() {
-    return this.#elements.toString();
+    return `{ ${this.#elements} }`;
   }
 
   union(secondSet) {
-    const newSet = new SlowSet()
+    const newSet = new SlowSet(secondSet);
     for (const element of this.#elements) {
-      newSet.add(element)
-    }
-    for (const element of secondSet.#elements) {
       newSet.add(element)
     }
     return newSet
   }
+
+  isSubsetOf(set) {
+    return this.#elements.every((element) => set.has(element))
+  }
+
+  isSupersetOf(set) {
+    for (const element of set) {
+      if (!this.has(element)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  difference(set) {
+    const newSet = new SlowSet(this.#elements)
+    for (const element of set) {
+      newSet.delete(element)
+    }
+    return newSet;
+  }
+
+  intersection(set) {
+    const setsMap = new Map();
+    const newSet = new SlowSet()
+    
+    for (const element of this.#elements) {
+      setsMap.set(element, 1)
+    }
+    
+    for (const element of set) {
+      setsMap.set(element, 1 + setsMap.get(element) ?? 1)
+      if (setsMap.get(element) === 2) {
+        newSet.add(element)
+      }
+    }
+    return newSet;
+  }
 }
 
-const s = new SlowSet();
-s.add(1)
-s.add(2)
-const a = new SlowSet();
-a.add(1)
-a.add(4);
-a.add(5);
-console.log(s.union(a).toString())
-console.log(a.toString())
-console.log(s.toString())
+const c = new SlowSet([1, 2, 3]);
+const d = new SlowSet([3, 4, 5])
+const e = new SlowSet([1, 2, 3, 4, 5, 6, 7]);
+const f = new SlowSet([2, 4, 6, 8, 10]);
+console.log(c.union(d).toString())
+console.log(c.toString())
+console.log(d.toString())
+console.log(new SlowSet().toString())
+// console.log(a.toString())
+for (const element of c) {
+  console.log(element)
+}
+
+const a = new SlowSet([1, 2])
+console.log(a.isSubsetOf(c))
+console.log(d.isSubsetOf(c))
+
+console.log(a.isSupersetOf(c))
+console.log(c.isSupersetOf(c))
+console.log(c.difference(a).toString())
+console.log(c.intersection(d).toString())
+console.log(e.intersection(f).toString())
+console.log(f.intersection(e).toString())
+console.log(f.difference(e).toString())
+console.log(e.difference(f).toString())
