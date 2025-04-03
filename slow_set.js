@@ -85,17 +85,7 @@ class SlowSet {
   }
 
   isDisjointFrom(set) {
-    const setsMap = new Map();
-
-    for (const element of this.#elements) {
-      setsMap.set(element, 1)
-    }
-
-    for (const element of set) {
-      setsMap.set(element, 1 + setsMap.get(element) ?? 1)
-    }
-
-    return setsMap.forEach((key) => setsMap.get(key) === 1) ? true : false
+    return this.#elements.every((element) => !set.has(element))
   }
 }
 
