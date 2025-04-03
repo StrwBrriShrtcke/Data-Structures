@@ -87,6 +87,12 @@ class SlowSet {
   isDisjointFrom(set) {
     return this.#elements.every((element) => !set.has(element))
   }
+
+  forEvery(callBackFn) {
+    for (const element of this.#elements) {
+      callBackFn(element)
+    }
+  }
 }
 
 const c = new SlowSet([1, 2, 3]);
@@ -116,3 +122,7 @@ console.log(e.intersection(f).toString())
 console.log(f.intersection(f).toString())
 console.log(even.isDisjointFrom(odd))
 console.log(a.isDisjointFrom(c))
+function plus(elem) {
+ return console.log(elem + 1)
+}
+console.log(odd.forEvery(plus))
