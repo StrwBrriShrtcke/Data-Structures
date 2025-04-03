@@ -75,20 +75,27 @@ class SlowSet {
   }
 
   intersection(set) {
-    const setsMap = new Map();
-    const newSet = new SlowSet()
-    
-    for (const element of this.#elements) {
-      setsMap.set(element, 1)
-    }
-    
+    const newSet = new SlowSet(set)
     for (const element of set) {
-      setsMap.set(element, 1 + setsMap.get(element) ?? 1)
-      if (setsMap.get(element) === 2) {
-        newSet.add(element)
+      if (!this.has(element)) {
+        newSet.delete(element)
       }
     }
     return newSet;
+  }
+
+  isDisjointFrom(set) {
+    const setsMap = new Map();
+
+    for (const element of this.#elements) {
+      setsMap.set(element, 1)
+    }
+
+    for (const element of set) {
+      setsMap.set(element, 1 + setsMap.get(element) ?? 1)
+    }
+
+    return setsMap.forEach((key) => setsMap.get(key) === 1) ? true : false
   }
 }
 
@@ -96,6 +103,8 @@ const c = new SlowSet([1, 2, 3]);
 const d = new SlowSet([3, 4, 5])
 const e = new SlowSet([1, 2, 3, 4, 5, 6, 7]);
 const f = new SlowSet([2, 4, 6, 8, 10]);
+const odd = new SlowSet([1, 3, 5, 7, 9]);
+const even = new SlowSet([2, 4, 6, 8, 10]);
 console.log(c.union(d).toString())
 console.log(c.toString())
 console.log(d.toString())
@@ -114,6 +123,6 @@ console.log(c.isSupersetOf(c))
 console.log(c.difference(a).toString())
 console.log(c.intersection(d).toString())
 console.log(e.intersection(f).toString())
-console.log(f.intersection(e).toString())
-console.log(f.difference(e).toString())
-console.log(e.difference(f).toString())
+console.log(f.intersection(f).toString())
+console.log(even.isDisjointFrom(odd))
+console.log(a.isDisjointFrom(c))
