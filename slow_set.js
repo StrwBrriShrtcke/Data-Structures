@@ -75,10 +75,10 @@ class SlowSet {
   }
 
   intersection(set) {
-    const newSet = new SlowSet(set)
+    const newSet = new SlowSet()
     for (const element of set) {
-      if (!this.has(element)) {
-        newSet.delete(element)
+      if (this.has(element)) {
+        newSet.add(element)
       }
     }
     return newSet;
