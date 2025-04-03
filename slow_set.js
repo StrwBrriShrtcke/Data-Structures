@@ -93,6 +93,26 @@ class SlowSet {
       callBackFn(element)
     }
   }
+
+  symmetricDifference(set) {
+    const newSet = new SlowSet();
+
+    function check(aset, element) {
+      if (!aset.has(element)) {
+        return newSet.add(element)
+      }
+    }
+    for (const element of this.#elements) {
+      check(set, element)
+      console.log(newSet.toString())
+    }
+    for (const element of set) {
+      check(this, element)
+
+    }
+    return newSet;
+  }
+
 }
 
 const c = new SlowSet([1, 2, 3]);
@@ -123,6 +143,7 @@ console.log(f.intersection(f).toString())
 console.log(even.isDisjointFrom(odd))
 console.log(a.isDisjointFrom(c))
 function plus(elem) {
- return console.log(elem + 1)
+  return console.log(elem + 1)
 }
-console.log(odd.forEvery(plus))
+
+console.log(odd.symmetricDifference(even).toString())
