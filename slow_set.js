@@ -115,35 +115,3 @@ class SlowSet {
 
 }
 
-const c = new SlowSet([1, 2, 3]);
-const d = new SlowSet([3, 4, 5])
-const e = new SlowSet([1, 2, 3, 4, 5, 6, 7]);
-const f = new SlowSet([2, 4, 6, 8, 10]);
-const odd = new SlowSet([1, 3, 5, 7, 9]);
-const even = new SlowSet([2, 4, 6, 8, 10]);
-console.log(c.union(d).toString())
-console.log(c.toString())
-console.log(d.toString())
-console.log(new SlowSet().toString())
-// console.log(a.toString())
-for (const element of c) {
-  console.log(element)
-}
-
-const a = new SlowSet([1, 2])
-console.log(a.isSubsetOf(c))
-console.log(d.isSubsetOf(c))
-
-console.log(a.isSupersetOf(c))
-console.log(c.isSupersetOf(c))
-console.log(c.difference(a).toString())
-console.log(c.intersection(d).toString())
-console.log(e.intersection(f).toString())
-console.log(f.intersection(f).toString())
-console.log(even.isDisjointFrom(odd))
-console.log(a.isDisjointFrom(c))
-function plus(elem) {
-  return console.log(elem + 1)
-}
-
-console.log(odd.symmetricDifference(even).toString())
